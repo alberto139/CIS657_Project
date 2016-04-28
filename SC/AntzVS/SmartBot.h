@@ -50,7 +50,6 @@ namespace Antz
         Neighbor* neighbors[6] = { NULL };
         Dll* seenRobots;
         int wipingNeighborsTimer; // timer for wiping neighbors array
-        long cycle = 0; //clock cycle
         
         Sender sender;
         uint16_t minFood;

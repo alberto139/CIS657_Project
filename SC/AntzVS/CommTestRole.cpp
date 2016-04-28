@@ -83,41 +83,17 @@ bool CommTestRole::receiveSignal(int& roleDecision)
     
     Serial.print("DLL Size: ");
     Serial.println(robot.seenRobots->getSize());
-    
 
     DllIter* iter = robot.seenRobots->createIterator();
 
+  
     while (iter->hasNext()){
-      Neighbor* tempN = iter->getNext();
-      Serial.print(tempN->id);
+      Serial.print(iter->getNext()->id);
       Serial.print(" ");
-      Serial.print("Mod: ");
-      Serial.print(tempN->mod);
-      Serial.print(" ");
-      Serial.print("Ref: ");
-      Serial.print(tempN->ref);
-      Serial.println();
      // Neighbor* next = iter->getNext();
     }
     Serial.println();
 
-    /*
-    if (robot.wipingNeighborsTimer == 0)
-    {
-      if(robot.seenRobots->getSize() > 3){
-          Serial.println("POPING THE DLL");
-          robot.seenRobots->popBack();
-          }
-        Serial.println("formNeighborhood");
-        //robot.formNeighborhood();
-        Serial.println("countNeighborhood");
-        int num = robot.countNeighbors();
-        robot.display.number(true, num);
-        robot.wipingNeighborsTimer = NEIGHBORS_COLLECTION_TIME_WORK;
-        //robot.wipeNeighbors();
-        
-    }
-    */
 
     return received;
 }

@@ -49,8 +49,6 @@ void SmartBot::setup()
 /* loop -- loop routine for SmartBot robot */
 void SmartBot::loop()
 {
-    cycle++;
-    Serial.println(cycle);
     if (robotRole->makeStep() == SWITCH_ROLE);
        // switchRole();
 }
@@ -83,90 +81,16 @@ void SmartBot::registerRobotSignal(Neighbor& robot, int sensor)
     while (iter->hasNext() && neighbor == NULL)
     {
         Neighbor* candidate = iter->getNext();
-        if (candidate->id == robot.id){
+        if (candidate->id == robot.id)
             neighbor = candidate;
-            neighbor->ref = 1;
-        }
     }
     delete iter;
-    if (cycle >= 75)
-    {
-      cycle = 0;
-      DllIter* iter = seenRobots->createIterator();
-      Neighbor* current = iter->getNext();
-      
-      while (current != NULL)
-      {
-        current->ref = 0;
-        current->mod = 0;
-        current = iter->getNext();
-        }
-      }
-    
     if (neighbor == NULL)
     {
-        // Page Replacement Happens Here
-        // NRU Page Replacement Algo
-
-        
-       
-        
-        robot.receivedFrom[sensor]++; 
-        
-        DllIter* iter = seenRobots->createIterator();
-        Neighbor* current = iter->getNext();
-        
-        if(seenRobots->getSize() >= 2){
-          bool flag = 0;
-
-          // Check for 0 0
-          while (current != NULL && flag == 0)
-          {
-            if (current->mod == 0 &&  current->ref == 0)
-            {
-              flag = 1;
-              seenRobots->remove(*current);
-              Serial.println("************************REMOVED********************************");
-            }
-            current = iter->getNext();
-          }
-          // Check for 1 0
-          while (current != NULL && flag == 0)
-          {
-            if (current->mod == 1 &&  current->ref == 0)
-            {
-              flag = 1;
-              seenRobots->remove(*current);
-              Serial.println("************************REMOVED********************************");
-            }
-            current = iter->getNext();
-          }
-          // Check for 0 1
-          while (current != NULL && flag == 0)
-          {
-            if (current->mod == 0 &&  current->ref == 1)
-            {
-              flag = 1;
-              seenRobots->remove(*current);
-              Serial.println("************************REMOVED********************************");
-            }
-            current = iter->getNext();
-          }
-
-          while (current != NULL && flag == 0)
-          {
-            if (current->mod == 1 &&  current->ref == 1)
-            {
-              flag = 1;
-              seenRobots->remove(*current);
-              Serial.println("************************REMOVED********************************");
-            }
-            current = iter->getNext();
-          }
-          
-          
+        robot.receivedFrom[sensor]++;
+        if(seenRobots->getSize() == 2){
+          seenRobots->popBack();
         }
-
         seenRobots->pushFront(robot);
     }
     else

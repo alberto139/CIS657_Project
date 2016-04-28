@@ -29,9 +29,8 @@ namespace Antz
         bool foodFound;
         uint8_t role;
         int receivedFrom[6] = { 0 };
-        //long count = 0;
-        bool ref = 1;
-        bool mod = 1;
+        bool ref = 0;
+        
    };
 }
    
