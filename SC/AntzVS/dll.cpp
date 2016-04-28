@@ -21,6 +21,16 @@ Neighbor* DllIter::getNext()
     return next == NULL ? NULL : next->item;
 }
 
+Neighbor* DllIter::getHead()
+{
+  return list->head->item;
+}
+
+Neighbor* DllIter::getTail()
+{
+  return list->tail->item;
+}
+
 bool DllIter::hasNext()
 {
     return pointer != NULL;

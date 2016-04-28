@@ -85,19 +85,52 @@ void SmartBot::registerRobotSignal(Neighbor& robot, int sensor)
             neighbor = candidate;
     }
     delete iter;
+    
     if (neighbor == NULL)
     {
         robot.receivedFrom[sensor]++;
-        if(seenRobots->getSize() == 2){
-          seenRobots->popBack();
+        
+        
+        if(seenRobots->getSize() == 2)
+        {
+          DllIter* iter = seenRobots->createIterator();
+          Neighbor* current = iter->getTail() ;
+         while(current->ref != 1)
+         {
+          current->ref = 1;
+          seenRobots->pushFront(*seenRobots->popBack());
+          Serial.println("*******************Seccond Chance*********************");
+         }
+         seenRobots->popBack();
+         Serial.println("#################### Removed ###########################");
+         //seenRobots->pushFront(robot);
+         
         }
+        /*{
+          if(robot.ref == 1)
+          {
+          Serial.println("*****************************REMOVED***************************************");
+          seenRobots->popBack();
+          }
+          else
+          {
+            robot.ref = 1;
+           Serial.println("#######SECOND CHANCE#######");
+             
+return;
+          }
+        } 
+        */
+      // if(seenRobots->getSize() < 2 && robot.ref == 1)
         seenRobots->pushFront(robot);
+       
     }
     else
     {
         neighbor->receivedFrom[sensor]++;
         delete &robot;
     }
+
 }
 
 void SmartBot::formNeighborhood()

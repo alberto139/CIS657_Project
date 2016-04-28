@@ -27,6 +27,8 @@ namespace Antz
         friend class Dll;
     public:
         Neighbor* getNext();
+        Neighbor* getTail();
+        Neighbor* getHead();
         bool hasNext();
     private:
         DllIter(Dll& _list);
@@ -50,12 +52,7 @@ namespace Antz
         int getSize();
         bool remove(Neighbor& neighbor);
         DllIter* createIterator();
-        DllElem* getHead(){
-          return head;
-        }
-        DllElem* getTail(){
-          return tail;
-        }
+
         
     private:
         bool remove(DllElem* elem);
